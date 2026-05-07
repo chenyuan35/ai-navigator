@@ -78,7 +78,9 @@
       "编程"
     ],
     "is_new": false,
-    "date": "2026-05-07"
+    "date": "2026-05-07",
+    "affiliate_url": "https://claude.ai",
+    "affiliate_desc": "Anthropic AI 助手"
   },
   {
     "name": "ChatGPT",
@@ -95,7 +97,9 @@
       "插件"
     ],
     "is_new": false,
-    "date": "2026-05-07"
+    "date": "2026-05-07",
+    "affiliate_url": "https://chat.openai.com",
+    "affiliate_desc": "OpenAI AI 助手"
   },
   {
     "name": "DeepSeek",
@@ -129,7 +133,9 @@
       "效率"
     ],
     "is_new": false,
-    "date": "2026-05-07"
+    "date": "2026-05-07",
+    "affiliate_url": "https://cursor.com",
+    "affiliate_desc": "AI 代码编辑器"
   },
   {
     "name": "Windsurf",
@@ -242,7 +248,9 @@
       "设计"
     ],
     "is_new": false,
-    "date": "2026-05-07"
+    "date": "2026-05-07",
+    "affiliate_url": "https://midjourney.com",
+    "affiliate_desc": "AI 图片生成"
   },
   {
     "name": "DALL-E 3",
@@ -513,7 +521,9 @@
       "博客"
     ],
     "is_new": false,
-    "date": "2026-05-07"
+    "date": "2026-05-07",
+    "affiliate_url": "https://writesonic.com/?via=ainavigator",
+    "affiliate_desc": "AI 写作工具 - 30% 佣金"
   },
   {
     "name": "Grammarly",
@@ -529,7 +539,9 @@
       "英文"
     ],
     "is_new": false,
-    "date": "2026-05-07"
+    "date": "2026-05-07",
+    "affiliate_url": "https://grammarly.com",
+    "affiliate_desc": "AI 语法检查"
   },
   {
     "name": "Notion AI",
@@ -545,7 +557,9 @@
       "AI"
     ],
     "is_new": false,
-    "date": "2026-05-07"
+    "date": "2026-05-07",
+    "affiliate_url": "https://notion.so",
+    "affiliate_desc": "笔记 + AI"
   },
   {
     "name": "Wispr Flow",
@@ -577,7 +591,9 @@
       "联网"
     ],
     "is_new": false,
-    "date": "2026-05-07"
+    "date": "2026-05-07",
+    "affiliate_url": "https://perplexity.ai",
+    "affiliate_desc": "AI 搜索引擎"
   },
   {
     "name": "Raycast",
@@ -673,7 +689,9 @@
       "变现"
     ],
     "is_new": false,
-    "date": "2026-05-07"
+    "date": "2026-05-07",
+    "affiliate_url": "https://gumroad.com",
+    "affiliate_desc": "数字产品销售平台"
   },
   {
     "name": "PromptBase",
@@ -769,6 +787,8 @@
       "联盟营销"
     ],
     "is_new": true,
-    "date": "2026-05-07"
+    "date": "2026-05-07",
+    "affiliate_url": "https://dub.co",
+    "affiliate_desc": "短链接 + 联盟营销"
   }
 ]
