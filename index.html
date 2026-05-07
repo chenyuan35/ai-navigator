@@ -171,31 +171,7 @@
 
     <script>
         // ========== 工具数据 ==========
-        const TOOLS_DATA = [
-            {name: "Claude 3.7 Sonnet", description: "Anthropic 最新最强模型，推理和编程能力顶尖，支持 200K 上下文", url: "https://claude.ai", source: "Anthropic", votes: 9800, category: "agent", tags: ["AI Agent", "编程", "推理"], is_new: true, date: "2026-05-07"},
-            {name: "Cursor", description: "AI 编程编辑器，代码补全+重构+调试一体化，开发者必备", url: "https://cursor.com", source: "Cursor Inc", votes: 8500, category: "coding", tags: ["编程", "IDE", "效率"], is_new: true, date: "2026-05-07"},
-            {name: "Midjourney V7", description: "最强 AI 图像生成，照片级真实感，支持风格一致性", url: "https://midjourney.com", source: "Midjourney", votes: 7200, category: "design", tags: ["图像", "设计", "艺术"], is_new: false, date: "2026-05-07"},
-            {name: "ElevenLabs", description: "AI 语音生成，支持 30+ 语言，声音克隆，播客/视频配音首选", url: "https://elevenlabs.io", source: "ElevenLabs", votes: 6800, category: "video", tags: ["语音", "音频", "配音"], is_new: false, date: "2026-05-07"},
-            {name: "Perplexity AI", description: "AI 搜索引擎，实时联网搜索，带引用来源，研究必备", url: "https://perplexity.ai", source: "Perplexity", votes: 6500, category: "productivity", tags: ["搜索", "研究", "效率"], is_new: false, date: "2026-05-07"},
-            {name: "Notion AI", description: "Notion 内置 AI，写作、总结、翻译、头脑风暴一体化", url: "https://notion.so", source: "Notion", votes: 5900, category: "writing", tags: ["写作", "笔记", "效率"], is_new: false, date: "2026-05-07"},
-            {name: "n8n", description: "开源工作流自动化工具，连接 400+ 应用，替代 Zapier", url: "https://n8n.io", source: "n8n", votes: 5200, category: "productivity", tags: ["自动化", "工作流", "开源"], is_new: false, date: "2026-05-07"},
-            {name: "Runway Gen-4", description: "AI 视频生成，文本/图片生成视频，电影级质量", url: "https://runway.com", source: "Runway", votes: 4800, category: "video", tags: ["视频", "生成", "创意"], is_new: true, date: "2026-05-07"},
-            {name: "Dify", description: "开源 AI 应用开发平台，快速构建 AI Agent 和 Chatbot", url: "https://dify.ai", source: "Dify", votes: 4500, category: "agent", tags: ["AI Agent", "开发", "开源"], is_new: false, date: "2026-05-07"},
-            {name: "Coze", description: "字节跳动 AI Agent 平台，零代码搭建 AI 机器人，支持多平台发布", url: "https://coze.cn", source: "字节跳动", votes: 4200, category: "agent", tags: ["AI Agent", "零代码", "国内"], is_new: false, date: "2026-05-07"},
-            {name: "DeepSeek R2", description: "国产最强开源模型，推理能力媲美 GPT-4，完全免费", url: "https://deepseek.com", source: "DeepSeek", votes: 9200, category: "agent", tags: ["开源", "免费", "国产"], is_new: true, date: "2026-05-07"},
-            {name: "Kimi K2", description: "月之暗面超长上下文模型，支持 200 万字输入，文档分析神器", url: "https://kimi.moonshot.cn", source: "月之暗面", votes: 5600, category: "agent", tags: ["长上下文", "国产", "文档"], is_new: false, date: "2026-05-07"},
-            {name: "Stable Diffusion 3.5", description: "开源图像生成模型，本地运行，无限生成，可定制", url: "https://stability.ai", source: "Stability AI", votes: 4100, category: "design", tags: ["图像", "开源", "本地"], is_new: false, date: "2026-05-07"},
-            {name: "Wispr Flow", description: "AI 语音输入工具，说话自动转文字+排版+发送，效率翻倍", url: "https://wisprflow.ai", source: "Wispr", votes: 3800, category: "productivity", tags: ["语音", "输入", "效率"], is_new: true, date: "2026-05-07"},
-            {name: "Lovable", description: "AI 网页应用生成器，说话就能做网站，替代前端开发", url: "https://lovable.dev", source: "Lovable", votes: 3500, category: "coding", tags: ["网页", "Vibe Coding", "零代码"], is_new: true, date: "2026-05-07"},
-            {name: "Bolt.new", description: "AI 全栈应用生成器，一句话生成可部署的 Web 应用", url: "https://bolt.new", source: "StackBlitz", votes: 3200, category: "coding", tags: ["全栈", "Vibe Coding", "部署"], is_new: false, date: "2026-05-07"},
-            // 赚钱工具
-            {name: "PromptBase", description: "全球最大 AI Prompt 市场，上传 Prompt 就能卖钱，月入 $500-$3000", url: "https://promptbase.com", source: "PromptBase", votes: 2800, category: "earn", tags: ["赚钱", "Prompt", "被动收入"], is_new: false, date: "2026-05-07"},
-            {name: "Gumroad", description: "数字产品销售平台，卖 PDF/模板/课程，0 门槛上架", url: "https://gumroad.com", source: "Gumroad", votes: 2500, category: "earn", tags: ["赚钱", "数字产品", "被动收入"], is_new: false, date: "2026-05-07"},
-            {name: "Printify", description: "按需印刷平台，AI 设计→印刷→发货，0 库存卖实物", url: "https://printify.com", source: "Printify", votes: 2200, category: "earn", tags: ["赚钱", "POD", "电商"], is_new: false, date: "2026-05-07"},
-            {name: "Etsy", description: "手工艺品+数字产品市场，AI 艺术/设计变现首选", url: "https://etsy.com", source: "Etsy", votes: 2000, category: "earn", tags: ["赚钱", "电商", "国际"], is_new: false, date: "2026-05-07"},
-            {name: "Fiverr", description: "自由职业平台，AI 服务接单，$5-$500/单", url: "https://fiverr.com", source: "Fiverr", votes: 1800, category: "earn", tags: ["赚钱", "接单", "服务"], is_new: false, date: "2026-05-07"},
-            {name: "Upwork", description: "国际自由职业平台，AI 自动化服务 $50-$200/小时", url: "https://upwork.com", source: "Upwork", votes: 1600, category: "earn", tags: ["赚钱", "接单", "高薪"], is_new: false, date: "2026-05-07"},
-        ];
+        const TOOLS_DATA = [{"name": "Vibe coding and agentic engineering are getting closer than ", "description": "Hacker News 热门讨论: Vibe coding and agentic engineering are getting closer than I&#x27;d like", "url": "https://news.ycombinator.com/", "source": "Hacker News", "votes": 500, "category": "agent", "tags": ["HN", "讨论", "agent"], "is_new": true, "date": "2026-05-07", "description_zh": ""}, {"name": "ProgramBench: Can Language Models Rebuild Programs from Scra", "description": "Hacker News 热门讨论: ProgramBench: Can Language Models Rebuild Programs from Scratch?", "url": "https://news.ycombinator.com/", "source": "Hacker News", "votes": 386, "category": "design", "tags": ["HN", "讨论", "design"], "is_new": true, "date": "2026-05-07", "description_zh": ""}, {"name": "Learning the Integral of a Diffusion Model", "description": "Hacker News 热门讨论: Learning the Integral of a Diffusion Model", "url": "https://news.ycombinator.com/", "source": "Hacker News", "votes": 269, "category": "earn", "tags": ["HN", "讨论", "earn"], "is_new": true, "date": "2026-05-07", "description_zh": ""}, {"name": "Show HN: Tilde.run – Agent sandbox with a transactional, ver", "description": "Hacker News 热门讨论: Show HN: Tilde.run – Agent sandbox with a transactional, versioned filesystem", "url": "https://news.ycombinator.com/", "source": "Hacker News", "votes": 65, "category": "agent", "tags": ["HN", "讨论", "agent"], "is_new": true, "date": "2026-05-07", "description_zh": ""}];
 
         // ========== 付费产品数据 ==========
         const EARN_PRODUCTS = [
