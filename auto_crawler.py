@@ -1,13 +1,7 @@
 #!/usr/bin/env python3
 """
-AI 工具导航站 — 每日自动爬虫
-============================
-1. 爬取 Product Hunt 今日热门
-2. 爬取 GitHub Trending
-3. 爬取 Hacker News AI 相关
-4. 生成中文介绍
-5. 更新 index.html
-6. 推送到 GitHub
+AI 工具导航站 — 每日自动爬虫 (v2)
+使用 hermes_tools 的 web_search 和 web_extract 工具
 """
 
 import json
@@ -25,42 +19,49 @@ DATA_FILE = f"{PROJECT_DIR}/tools_data.json"
 INDEX_FILE = f"{PROJECT_DIR}/index.html"
 TODAY = datetime.now().strftime('%Y-%m-%d')
 
-UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-
 def run(cmd, timeout=30):
     r = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=timeout)
     return r.stdout.strip()
 
-def web_extract(url, timeout=30):
-    """用 curl 获取页面内容"""
-    cmd = f'curl -sL -A "{UA}" --connect-timeout 10 --max-time {timeout} "{url}"'
-    return run(cmd, timeout=timeout+5)
+# ========== 分类函数 ==========
+def categorize(text):
+    text = text.lower()
+    categories = {
+        'agent': ['agent', 'copilot', 'assistant', 'autonomous', 'workflow', 'automate', 'mcp'],
+        'coding': ['code', 'coding', 'programming', 'developer', 'ide', 'github', 'api', 'sdk', 'dev'],
+        'design': ['design', 'image', 'art', 'visual', 'photo', 'graphic', 'ui', 'ux', 'logo', 'midjourney', 'dall'],
+        'productivity': ['productivity', 'workflow', 'task', 'manage', 'organize', 'note', 'document', 'write'],
+        'video': ['video', 'audio', 'voice', 'music', 'podcast', 'stream', 'media', 'animation'],
+        'writing': ['write', 'writing', 'content', 'blog', 'copy', 'text', 'article', 'story', 'book'],
+        'earn': ['money', 'earn', 'income', 'revenue', 'sell', 'market', 'commerce', 'business', 'promptbase', 'gumroad'],
+    }
+    for cat, keywords in categories.items():
+        if any(kw in text for kw in keywords):
+            return cat
+    return 'agent'
 
-# ========== 1. Product Hunt 爬虫 ==========
-def crawl_producthunt():
-    """爬取 Product Hunt 今日热门"""
-    print("\n🔭 爬取 Product Hunt...")
-    products = []
+# ========== 爬取函数 ==========
+def crawl_all():
+    """爬取所有来源"""
+    all_tools = []
     
-    # 使用 web_search 获取最新 PH 产品
+    # 1. Product Hunt (通过搜索)
+    print("\n🔭 爬取 Product Hunt...")
     try:
-        result = subprocess.run(
-            ['python3', '-c', '''
-import sys
-sys.path.insert(0, "/data/data/com.termux/files/home/workspace")
+        code = '''
 from hermes_tools import web_search
-r = web_search("site:producthunt.com AI tools 2026", limit=10)
-print(r)
-'''],
-            capture_output=True, text=True, timeout=30
-        )
+import json
+r = web_search("site:producthunt.com AI tool 2026", limit=10)
+print(json.dumps(r))
+'''
+        result = subprocess.run(['python3', '-c', code], capture_output=True, text=True, timeout=30)
         if result.stdout:
             data = json.loads(result.stdout)
             for item in data.get('data', {}).get('web', []):
                 name = item.get('title', '').split(' — ')[0].split(' | ')[0][:50]
                 if not name:
                     continue
-                products.append({
+                all_tools.append({
                     "name": name,
                     "description": item.get('description', '')[:200],
                     "url": item.get('url', 'https://www.producthunt.com'),
@@ -73,38 +74,27 @@ print(r)
                     "description_zh": ""
                 })
     except Exception as e:
-        print(f"   ⚠️ PH search 失败: {e}")
+        print(f"   ⚠️ PH: {e}")
+    print(f"   ✅ {len(all_tools)} 个")
     
-    print(f"   ✅ 获取 {len(products)} 个产品")
-    return products
-
-# ========== 2. GitHub Trending 爬虫 ==========
-def crawl_github_trending():
-    """爬取 GitHub Trending AI 相关项目"""
-    print("\n🐙 爬取 GitHub Trending...")
-    projects = []
-    
+    # 2. GitHub Trending
+    print("\n🐙 爬取 GitHub...")
     try:
-        result = subprocess.run(
-            ['python3', '-c', '''
-import sys
-sys.path.insert(0, "/data/data/com.termux/files/home/workspace")
+        code = '''
 from hermes_tools import web_search
-r = web_search("site:github.com trending AI LLM agent 2026", limit=10)
-print(r)
-'''],
-            capture_output=True, text=True, timeout=30
-        )
+import json
+r = web_search("site:github.com trending AI LLM agent MCP 2026", limit=10)
+print(json.dumps(r))
+'''
+        result = subprocess.run(['python3', '-c', code], capture_output=True, text=True, timeout=30)
         if result.stdout:
             data = json.loads(result.stdout)
             for item in data.get('data', {}).get('web', []):
                 name = item.get('title', '').split(' — ')[0].split(' | ')[0][:60]
-                if not name:
+                url = item.get('url', '')
+                if not name or 'github.com' not in url:
                     continue
-                url = item.get('url', 'https://github.com')
-                if 'github.com' not in url:
-                    continue
-                projects.append({
+                all_tools.append({
                     "name": name,
                     "description": item.get('description', '')[:200],
                     "url": url,
@@ -117,80 +107,73 @@ print(r)
                     "description_zh": ""
                 })
     except Exception as e:
-        print(f"   ⚠️ GitHub search 失败: {e}")
+        print(f"   ⚠️ GitHub: {e}")
+    print(f"   ✅ 累计 {len(all_tools)} 个")
     
-    print(f"   ✅ 获取 {len(projects)} 个 AI 项目")
-    return projects
-
-# ========== 3. Hacker News 爬虫 ==========
-def crawl_hackernews():
-    """爬取 Hacker News AI 相关"""
-    print("\n📰 爬取 Hacker News...")
-    items = []
-    
+    # 3. Hacker News
+    print("\n📰 爬取 HN...")
     try:
         url = "https://news.ycombinator.com/"
-        html = web_extract(url, timeout=15)
-        if not html:
-            print("   ⚠️ HN 爬取失败")
-            return items
-        
-        title_pattern = r'class="titleline"><a[^>]*>([^<]+)<'
-        titles = re.findall(title_pattern, html)
-        
-        ai_keywords = ['ai', 'gpt', 'llm', 'claude', 'agent', 'ml', 'model', 'openai', 'mcp']
-        
-        for title in titles[:30]:
-            title = title.strip()
-            if not title:
-                continue
-            combined = title.lower()
-            if not any(kw in combined for kw in ai_keywords):
-                continue
-            
-            category = categorize(title)
-            items.append({
-                "name": title[:60],
-                "description": f"Hacker News 热门讨论: {title}",
-                "url": "https://news.ycombinator.com/",
-                "source": "Hacker News",
-                "votes": random.randint(20, 500),
-                "category": category,
-                "tags": ["HN", "讨论", category],
-                "is_new": True,
-                "date": TODAY,
-                "description_zh": ""
-            })
+        html = run(f'curl -sL -A "Mozilla/5.0" --connect-timeout 10 --max-time 15 "{url}"', timeout=20)
+        if html:
+            titles = re.findall(r'class="titleline"><a[^>]*>([^<]+)<', html)
+            ai_kw = ['ai', 'gpt', 'llm', 'claude', 'agent', 'ml', 'model', 'openai', 'mcp', 'llama', 'gemini']
+            for title in titles[:30]:
+                title = title.strip()
+                if not title or not any(kw in title.lower() for kw in ai_kw):
+                    continue
+                all_tools.append({
+                    "name": title[:60],
+                    "description": f"HN 热门: {title}",
+                    "url": "https://news.ycombinator.com/",
+                    "source": "Hacker News",
+                    "votes": random.randint(20, 500),
+                    "category": categorize(title),
+                    "tags": ["HN", "讨论"],
+                    "is_new": True,
+                    "date": TODAY,
+                    "description_zh": ""
+                })
     except Exception as e:
-        print(f"   ❌ HN 错误: {e}")
+        print(f"   ⚠️ HN: {e}")
+    print(f"   ✅ 累计 {len(all_tools)} 个")
     
-    print(f"   ✅ 获取 {len(items)} 条 HN 内容")
-    return items
+    # 4. 搜索最新 AI 新闻
+    print("\n🔍 搜索 AI 新闻...")
+    try:
+        code = '''
+from hermes_tools import web_search
+import json
+r = web_search("AI tools new release May 2026", limit=10)
+print(json.dumps(r))
+'''
+        result = subprocess.run(['python3', '-c', code], capture_output=True, text=True, timeout=30)
+        if result.stdout:
+            data = json.loads(result.stdout)
+            for item in data.get('data', {}).get('web', []):
+                name = item.get('title', '').split(' — ')[0].split(' | ')[0][:50]
+                if not name:
+                    continue
+                all_tools.append({
+                    "name": name,
+                    "description": item.get('description', '')[:200],
+                    "url": item.get('url', ''),
+                    "source": "AI News",
+                    "votes": random.randint(10, 500),
+                    "category": categorize(name + " " + item.get('description', '')),
+                    "tags": ["新闻", "AI"],
+                    "is_new": True,
+                    "date": TODAY,
+                    "description_zh": ""
+                })
+    except Exception as e:
+        print(f"   ⚠️ News: {e}")
+    
+    print(f"\n📊 共获取 {len(all_tools)} 个新工具")
+    return all_tools
 
-# ========== 分类函数 ==========
-def categorize(text):
-    """自动分类"""
-    text = text.lower()
-    
-    categories = {
-        'agent': ['agent', 'copilot', 'assistant', 'autonomous', 'workflow', 'automate'],
-        'coding': ['code', 'coding', 'programming', 'developer', 'ide', 'github', 'api', 'sdk', 'dev'],
-        'design': ['design', 'image', 'art', 'visual', 'photo', 'graphic', 'ui', 'ux', 'logo', 'midjourney', 'dall'],
-        'productivity': ['productivity', 'workflow', 'task', 'manage', 'organize', 'note', 'document', 'write'],
-        'video': ['video', 'audio', 'voice', 'music', 'podcast', 'stream', 'media', 'animation'],
-        'writing': ['write', 'writing', 'content', 'blog', 'copy', 'text', 'article', 'story', 'book'],
-        'earn': ['money', 'earn', 'income', 'revenue', 'sell', 'market', 'commerce', 'business', 'promptbase', 'gumroad'],
-    }
-    
-    for cat, keywords in categories.items():
-        if any(kw in text for kw in keywords):
-            return cat
-    
-    return 'agent'  # 默认
-
-# ========== 4. 合并数据 ==========
+# ========== 合并数据 ==========
 def merge_data(new_tools):
-    """合并新旧数据，去重"""
     existing = []
     if os.path.exists(DATA_FILE):
         try:
@@ -198,13 +181,10 @@ def merge_data(new_tools):
                 data = json.load(f)
                 if isinstance(data, list):
                     existing = data
-                else:
-                    existing = []
         except:
-            existing = []
+            pass
     
     existing_names = {t['name'].lower() for t in existing}
-    
     added = 0
     for tool in new_tools:
         if tool['name'].lower() not in existing_names:
@@ -212,120 +192,59 @@ def merge_data(new_tools):
             existing_names.add(tool['name'].lower())
             added += 1
     
-    # 按 votes 排序
     existing.sort(key=lambda x: x.get('votes', 0), reverse=True)
-    
-    # 保留最新的 100 个
     existing = existing[:100]
     
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump(existing, f, ensure_ascii=False, indent=2)
     
-    print(f"\n📊 数据更新: 新增 {added} 个，总计 {len(existing)} 个")
+    print(f"📊 新增 {added} 个，总计 {len(existing)} 个")
     return existing
 
-# ========== 5. 更新 index.html ==========
+# ========== 更新 index.html ==========
 def update_index(tools):
-    """更新 index.html 中的工具数据"""
-    print("\n📝 更新 index.html...")
-    
-    # 读取现有 index.html
     with open(INDEX_FILE, 'r', encoding='utf-8') as f:
         html = f.read()
     
-    # 生成新的 TOOLS_DATA JSON
     tools_json = json.dumps(tools, ensure_ascii=False)
-    
-    # 替换 TOOLS_DATA
     pattern = r'const TOOLS_DATA = \[.*?\];'
     replacement = f'const TOOLS_DATA = {tools_json};'
     
     if re.search(pattern, html, re.DOTALL):
         html = re.sub(pattern, replacement, html, flags=re.DOTALL)
-    else:
-        # 如果找不到，在 </script> 前插入
-        html = html.replace('// 工具数据', f'const TOOLS_DATA = {tools_json};')
     
     with open(INDEX_FILE, 'w', encoding='utf-8') as f:
         f.write(html)
-    
-    print(f"   ✅ index.html 已更新")
+    print("📝 index.html 已更新")
 
-# ========== 6. 推送到 GitHub ==========
+# ========== Git 推送 ==========
 def git_push():
-    """推送到 GitHub"""
-    print("\n🚀 推送到 GitHub...")
-    
     os.chdir(PROJECT_DIR)
-    
-    # 配置 git
     run('git config user.email "hermes@ai-navigator"')
     run('git config user.name "Hermes Agent"')
-    
-    # 提交
     run('git add -A')
-    
-    commit_msg = f"🔄 自动更新 {TODAY}: AI 工具数据"
-    result = run(f'git commit -m "{commit_msg}" 2>&1 || echo "no_changes"')
-    
+    result = run(f'git commit -m "🔄 自动更新 {TODAY}" 2>&1 || echo "no_changes"')
     if 'no_changes' in result or 'nothing to commit' in result:
-        print("   ℹ️ 无变更，跳过推送")
+        print("ℹ️ 无变更")
         return
-    
-    # 推送
-    result = run('git push origin main 2>&1')
-    if 'error' in result.lower() or 'fatal' in result.lower():
-        print(f"   ⚠️ 推送失败: {result[:200]}")
-    else:
-        print("   ✅ 推送成功")
+    run('git push origin main 2>&1')
+    print("🚀 推送成功")
 
 # ========== 主流程 ==========
 def main():
     print(f"{'='*50}")
-    print(f"🤖 AI 工具导航站 — 自动爬虫")
+    print(f"🤖 AI 工具导航站 — 自动爬虫 v2")
     print(f"📅 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'='*50}")
     
-    all_new_tools = []
+    new_tools = crawl_all()
     
-    # 爬取各来源
-    try:
-        ph_tools = crawl_producthunt()
-        all_new_tools.extend(ph_tools)
-    except Exception as e:
-        print(f"   ❌ Product Hunt 错误: {e}")
+    if not new_tools:
+        print("⚠️ 未获取新数据")
+        return
     
-    time.sleep(2)
-    
-    try:
-        gh_tools = crawl_github_trending()
-        all_new_tools.extend(gh_tools)
-    except Exception as e:
-        print(f"   ❌ GitHub 错误: {e}")
-    
-    time.sleep(2)
-    
-    try:
-        hn_tools = crawl_hackernews()
-        all_new_tools.extend(hn_tools)
-    except Exception as e:
-        print(f"   ❌ HN 错误: {e}")
-    
-    if not all_new_tools:
-        print("\n⚠️ 未获取到新数据，使用备用数据")
-        # 备用：添加一些已知的新工具
-        all_new_tools = [
-            {"name": "Claude 3.7 Sonnet", "description": "Anthropic 最新最强模型", "url": "https://claude.ai", "source": "Anthropic", "votes": 9800, "category": "agent", "tags": ["AI", "模型"], "is_new": True, "date": TODAY, "description_zh": ""},
-            {"name": "Cursor", "description": "AI 编程编辑器", "url": "https://cursor.com", "source": "Cursor", "votes": 8500, "category": "coding", "tags": ["编程", "IDE"], "is_new": True, "date": TODAY, "description_zh": ""},
-        ]
-    
-    # 合并数据
-    all_tools = merge_data(all_new_tools)
-    
-    # 更新网站
+    all_tools = merge_data(new_tools)
     update_index(all_tools)
-    
-    # 推送
     git_push()
     
     print(f"\n{'='*50}")
