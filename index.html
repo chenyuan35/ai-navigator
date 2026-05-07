@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 工具导航 | 发现最新最好的 AI 工具</title>
+    <meta name="description" content="每天自动更新国外最新 AI 工具，附中文介绍和使用场景。">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0f; color: #e0e0e0; line-height: 1.6; }
+        .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 40px 20px; text-align: center; border-bottom: 1px solid #2a2a4a; }
+        .header h1 { font-size: 2.5em; color: #00d4ff; margin-bottom: 10px; }
+        .header p { color: #888; font-size: 1.1em; }
+        .stats { display: flex; justify-content: center; gap: 40px; margin-top: 20px; flex-wrap: wrap; }
+        .stat { text-align: center; }
+        .stat-num { font-size: 2em; color: #00d4ff; font-weight: bold; }
+        .stat-label { color: #666; font-size: 0.9em; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .filters { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+        .filter-btn { padding: 8px 20px; background: #1a1a2e; border: 1px solid #2a2a4a; color: #888; border-radius: 20px; cursor: pointer; transition: all 0.3s; }
+        .filter-btn:hover, .filter-btn.active { background: #00d4ff; color: #000; border-color: #00d4ff; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+        .tool-card { background: #12121a; border: 1px solid #2a2a4a; border-radius: 12px; padding: 24px; transition: all 0.3s; }
+        .tool-card:hover { border-color: #00d4ff; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 212, 255, 0.1); }
+        .tool-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .tool-name { font-size: 1.3em; color: #fff; font-weight: 600; }
+        .tool-votes { background: #1a1a2e; color: #00d4ff; padding: 4px 12px; border-radius: 12px; font-size: 0.85em; }
+        .tool-desc { color: #888; margin-bottom: 16px; font-size: 0.95em; }
+        .tool-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .tag { background: #1a1a2e; color: #666; padding: 4px 10px; border-radius: 8px; font-size: 0.8em; }
+        .tool-footer { display: flex; justify-content: space-between; align-items: center; }
+        .tool-source { color: #555; font-size: 0.85em; }
+        .tool-link { color: #00d4ff; text-decoration: none; font-size: 0.9em; }
+        .tool-link:hover { text-decoration: underline; }
+        .update-time { text-align: center; color: #444; margin-top: 40px; font-size: 0.85em; }
+        .footer { background: #0a0a0f; border-top: 1px solid #2a2a4a; padding: 30px 20px; text-align: center; color: #444; margin-top: 60px; }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .tools-grid { grid-template-columns: 1fr; }
+            .stats { gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🤖 AI 工具导航</h1>
+        <p>每天自动更新 · 中文介绍 · 发现最新最好的 AI 工具</p>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-num" id="tool-count">0</div>
+                <div class="stat-label">收录工具</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num" id="today-count">0</div>
+                <div class="stat-label">今日新增</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num" id="category-count">0</div>
+                <div class="stat-label">分类</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterTools('all')">全部</button>
+            <button class="filter-btn" onclick="filterTools('agent')">AI Agent</button>
+            <button class="filter-btn" onclick="filterTools('coding')">编程</button>
+            <button class="filter-btn" onclick="filterTools('design')">设计</button>
+            <button class="filter-btn" onclick="filterTools('productivity')">效率</button>
+            <button class="filter-btn" onclick="filterTools('video')">视频</button>
+            <button class="filter-btn" onclick="filterTools('writing')">写作</button>
+        </div>
+
+        <div class="tools-grid" id="tools-grid">
+            <!-- 工具卡片由 JS 动态生成 -->
+        </div>
+
+        <div class="update-time">
+            最后更新: <span id="update-time"></span> | 数据源: Product Hunt, GitHub Trending
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>AI 工具导航 © 2026 | 自动更新 | <a href="https://github.com" style="color:#00d4ff">GitHub</a></p>
+    </div>
+
+    <script>
+        // 工具数据（由爬虫自动生成）
+        const TOOLS_DATA = [{"name": "Navigation Menu", "description": "Sign in\n          \n              \n    \n        \n    \n\nAppearance settings\n\n      \n        \n\n\n\n  \n  {\"props\":{}}\n  \n\n\n\n      \n    \n  \n\n      \n    \n\n\n  ", "url": "https://github.com/manifest.json\" crossOrigin=\"use-credentials\">\n\n  </head>\n\n  <body class=\"logged-out env-production page-responsive\" style=\"word-wrap: break-word;\" >\n    <div data-turbo-body class=\"logged-out env-production page-responsive\" style=\"word-wrap: break-word;\" >\n      <div id=\"__primerPortalRoot__\" role=\"region\" style=\"z-index: 1000; position: absolute; width: 100%;", "source": "GitHub", "votes": 1924, "category": "agent", "tags": ["开源", "GitHub"], "is_new": true, "date": "2026-05-07", "description_zh": "Sign in\n          \n              \n    \n        \n    \n\nAppearance settings\n\n      \n        \n\n\n\n  \n  {\"props\":{}}\n  \n\n\n\n      \n    \n  \n\n      \n    \n\n\n  "}];
+
+        function renderTools(tools) {
+            const grid = document.getElementById('tools-grid');
+            grid.innerHTML = tools.map(tool => `
+                <div class="tool-card" data-category="${tool.category || 'other'}">
+                    <div class="tool-header">
+                        <div class="tool-name">${tool.name}</div>
+                        <div class="tool-votes">⬆ ${tool.votes || 0}</div>
+                    </div>
+                    <div class="tool-desc">${tool.description || ''}</div>
+                    <div class="tool-tags">
+                        ${(tool.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <div class="tool-footer">
+                        <div class="tool-source">${tool.source || ''}</div>
+                        <a href="${tool.url || '#'}" class="tool-link" target="_blank">访问 →</a>
+                    </div>
+                </div>
+            `).join('');
+
+            // 更新统计
+            document.getElementById('tool-count').textContent = tools.length;
+            document.getElementById('today-count').textContent = tools.filter(t => t.is_new).length;
+            const categories = new Set(tools.map(t => t.category).filter(Boolean));
+            document.getElementById('category-count').textContent = categories.size;
+            document.getElementById('update-time').textContent = new Date().toLocaleString('zh-CN');
+        }
+
+        function filterTools(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const cards = document.querySelectorAll('.tool-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // 初始化
+        renderTools(TOOLS_DATA);
+    </script>
+</body>
+</html>
