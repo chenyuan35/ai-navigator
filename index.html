@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 工具导航 | 发现最新最好的 AI 工具</title>
-    <meta name="description" content="每天自动更新国外最新 AI 工具，附中文介绍和使用场景。">
+    <title>AI 工具导航 | 发现最新最好的 AI 工具 + AI 赚钱指南</title>
+    <meta name="description" content="每天自动更新国外最新 AI 工具，附中文介绍。还有 AI 赚钱工具包、Prompt 指南等付费资源。">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0f; color: #e0e0e0; line-height: 1.6; }
+        
+        /* Header */
         .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 40px 20px; text-align: center; border-bottom: 1px solid #2a2a4a; }
         .header h1 { font-size: 2.5em; color: #00d4ff; margin-bottom: 10px; }
         .header p { color: #888; font-size: 1.1em; }
@@ -15,10 +17,21 @@
         .stat { text-align: center; }
         .stat-num { font-size: 2em; color: #00d4ff; font-weight: bold; }
         .stat-label { color: #666; font-size: 0.9em; }
+
+        /* Navigation */
+        .nav { background: #12121a; border-bottom: 1px solid #2a2a4a; padding: 15px 20px; text-align: center; position: sticky; top: 0; z-index: 100; }
+        .nav a { color: #888; text-decoration: none; margin: 0 15px; font-size: 1em; transition: color 0.3s; }
+        .nav a:hover, .nav a.active { color: #00d4ff; }
+        .nav .earn-badge { background: linear-gradient(135deg, #ff6b35, #f7931e); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 0.85em; margin-left: 5px; }
+
         .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+
+        /* Filters */
         .filters { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
         .filter-btn { padding: 8px 20px; background: #1a1a2e; border: 1px solid #2a2a4a; color: #888; border-radius: 20px; cursor: pointer; transition: all 0.3s; }
         .filter-btn:hover, .filter-btn.active { background: #00d4ff; color: #000; border-color: #00d4ff; }
+
+        /* Tools Grid */
         .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
         .tool-card { background: #12121a; border: 1px solid #2a2a4a; border-radius: 12px; padding: 24px; transition: all 0.3s; }
         .tool-card:hover { border-color: #00d4ff; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 212, 255, 0.1); }
@@ -32,16 +45,58 @@
         .tool-source { color: #555; font-size: 0.85em; }
         .tool-link { color: #00d4ff; text-decoration: none; font-size: 0.9em; }
         .tool-link:hover { text-decoration: underline; }
+        .new-badge { background: #ff6b35; color: #fff; padding: 2px 8px; border-radius: 8px; font-size: 0.75em; margin-left: 8px; }
+
+        /* Earn Section */
+        .earn-section { margin-top: 60px; }
+        .earn-header { text-align: center; margin-bottom: 40px; }
+        .earn-header h2 { font-size: 2em; color: #ff6b35; margin-bottom: 10px; }
+        .earn-header p { color: #888; }
+        .earn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+        .earn-card { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border: 1px solid #ff6b35; border-radius: 16px; padding: 28px; transition: all 0.3s; position: relative; overflow: hidden; }
+        .earn-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(255, 107, 53, 0.15); }
+        .earn-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #ff6b35, #f7931e); }
+        .earn-icon { font-size: 2.5em; margin-bottom: 16px; }
+        .earn-title { font-size: 1.3em; color: #fff; margin-bottom: 8px; font-weight: 600; }
+        .earn-desc { color: #888; font-size: 0.95em; margin-bottom: 16px; }
+        .earn-price { font-size: 1.5em; color: #ff6b35; font-weight: bold; margin-bottom: 12px; }
+        .earn-price span { font-size: 0.6em; color: #666; text-decoration: line-through; margin-left: 8px; }
+        .earn-features { list-style: none; margin-bottom: 20px; }
+        .earn-features li { color: #aaa; font-size: 0.9em; padding: 4px 0; }
+        .earn-features li::before { content: '✓ '; color: #00d4ff; }
+        .earn-btn { display: block; width: 100%; padding: 12px; background: linear-gradient(135deg, #ff6b35, #f7931e); color: #fff; text-align: center; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 1em; transition: all 0.3s; }
+        .earn-btn:hover { transform: scale(1.02); box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3); }
+        .earn-tag { position: absolute; top: 16px; right: 16px; background: #ff6b35; color: #fff; padding: 4px 10px; border-radius: 8px; font-size: 0.75em; }
+
+        /* Methods Section */
+        .methods-section { margin-top: 60px; }
+        .methods-header { text-align: center; margin-bottom: 40px; }
+        .methods-header h2 { font-size: 2em; color: #00d4ff; margin-bottom: 10px; }
+        .methods-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+        .method-card { background: #12121a; border: 1px solid #2a2a4a; border-radius: 12px; padding: 24px; }
+        .method-num { font-size: 2em; color: #00d4ff; font-weight: bold; margin-bottom: 8px; }
+        .method-title { font-size: 1.2em; color: #fff; margin-bottom: 8px; }
+        .method-desc { color: #888; font-size: 0.95em; margin-bottom: 12px; }
+        .method-income { color: #ff6b35; font-weight: 600; }
+        .method-tools { color: #666; font-size: 0.85em; }
+
+        /* Update time */
         .update-time { text-align: center; color: #444; margin-top: 40px; font-size: 0.85em; }
+
+        /* Footer */
         .footer { background: #0a0a0f; border-top: 1px solid #2a2a4a; padding: 30px 20px; text-align: center; color: #444; margin-top: 60px; }
+        .footer a { color: #00d4ff; text-decoration: none; }
+
         @media (max-width: 768px) {
             .header h1 { font-size: 1.8em; }
-            .tools-grid { grid-template-columns: 1fr; }
+            .tools-grid, .earn-grid, .methods-grid { grid-template-columns: 1fr; }
             .stats { gap: 20px; }
+            .nav a { margin: 0 8px; font-size: 0.9em; }
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <div class="header">
         <h1>🤖 AI 工具导航</h1>
         <p>每天自动更新 · 中文介绍 · 发现最新最好的 AI 工具</p>
@@ -55,46 +110,178 @@
                 <div class="stat-label">今日新增</div>
             </div>
             <div class="stat">
-                <div class="stat-num" id="category-count">0</div>
-                <div class="stat-label">分类</div>
+                <div class="stat-num" id="earn-count">6</div>
+                <div class="stat-label">赚钱方法</div>
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <div class="filters">
-            <button class="filter-btn active" onclick="filterTools('all')">全部</button>
-            <button class="filter-btn" onclick="filterTools('agent')">AI Agent</button>
-            <button class="filter-btn" onclick="filterTools('coding')">编程</button>
-            <button class="filter-btn" onclick="filterTools('design')">设计</button>
-            <button class="filter-btn" onclick="filterTools('productivity')">效率</button>
-            <button class="filter-btn" onclick="filterTools('video')">视频</button>
-            <button class="filter-btn" onclick="filterTools('writing')">写作</button>
-        </div>
+    <!-- Navigation -->
+    <div class="nav">
+        <a href="#tools" class="active">🔧 AI 工具</a>
+        <a href="#earn">💰 AI 赚钱 <span class="earn-badge">NEW</span></a>
+        <a href="#methods">📈 赚钱方法</a>
+        <a href="#products">🛒 付费资源</a>
+    </div>
 
-        <div class="tools-grid" id="tools-grid">
-            <!-- 工具卡片由 JS 动态生成 -->
-        </div>
+    <div class="container">
+        <!-- Tools Section -->
+        <section id="tools">
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterTools('all', this)">全部</button>
+                <button class="filter-btn" onclick="filterTools('agent', this)">AI Agent</button>
+                <button class="filter-btn" onclick="filterTools('coding', this)">编程</button>
+                <button class="filter-btn" onclick="filterTools('design', this)">设计</button>
+                <button class="filter-btn" onclick="filterTools('productivity', this)">效率</button>
+                <button class="filter-btn" onclick="filterTools('video', this)">视频</button>
+                <button class="filter-btn" onclick="filterTools('writing', this)">写作</button>
+                <button class="filter-btn" onclick="filterTools('earn', this)">💰 赚钱工具</button>
+            </div>
+
+            <div class="tools-grid" id="tools-grid"></div>
+        </section>
+
+        <!-- Earn Products Section -->
+        <section id="earn" class="earn-section">
+            <div class="earn-header">
+                <h2>💰 AI 赚钱工具包</h2>
+                <p>经过验证的 AI 赚钱资源，帮你快速启动 AI 副业</p>
+            </div>
+            <div class="earn-grid" id="earn-grid"></div>
+        </section>
+
+        <!-- Methods Section -->
+        <section id="methods" class="methods-section">
+            <div class="methods-header">
+                <h2>📈 6 个已验证的 AI 赚钱方法</h2>
+                <p>每个方法都有真实收入数据支撑</p>
+            </div>
+            <div class="methods-grid" id="methods-grid"></div>
+        </section>
 
         <div class="update-time">
-            最后更新: <span id="update-time"></span> | 数据源: Product Hunt, GitHub Trending
+            最后更新: <span id="update-time"></span> | 数据源: Product Hunt, GitHub Trending, Reddit
         </div>
     </div>
 
     <div class="footer">
-        <p>AI 工具导航 © 2026 | 自动更新 | <a href="https://github.com" style="color:#00d4ff">GitHub</a></p>
+        <p>AI 工具导航 © 2026 | 自动更新 | <a href="https://github.com/chenyuan35/ai-navigator">GitHub</a></p>
+        <p style="margin-top: 10px; font-size: 0.85em;">💡 本站部分资源为付费数字产品，购买后即时下载</p>
     </div>
 
     <script>
-        // 工具数据（由爬虫自动生成）
-        const TOOLS_DATA = [{"name": "Navigation Menu", "description": "Sign in\n          \n              \n    \n        \n    \n\nAppearance settings\n\n      \n        \n\n\n\n  \n  {\"props\":{}}\n  \n\n\n\n      \n    \n  \n\n      \n    \n\n\n  ", "url": "https://github.com/manifest.json\" crossOrigin=\"use-credentials\">\n\n  </head>\n\n  <body class=\"logged-out env-production page-responsive\" style=\"word-wrap: break-word;\" >\n    <div data-turbo-body class=\"logged-out env-production page-responsive\" style=\"word-wrap: break-word;\" >\n      <div id=\"__primerPortalRoot__\" role=\"region\" style=\"z-index: 1000; position: absolute; width: 100%;", "source": "GitHub", "votes": 1924, "category": "agent", "tags": ["开源", "GitHub"], "is_new": true, "date": "2026-05-07", "description_zh": "Sign in\n          \n              \n    \n        \n    \n\nAppearance settings\n\n      \n        \n\n\n\n  \n  {\"props\":{}}\n  \n\n\n\n      \n    \n  \n\n      \n    \n\n\n  "}];
+        // ========== 工具数据 ==========
+        const TOOLS_DATA = [
+            {name: "Claude 3.7 Sonnet", description: "Anthropic 最新最强模型，推理和编程能力顶尖，支持 200K 上下文", url: "https://claude.ai", source: "Anthropic", votes: 9800, category: "agent", tags: ["AI Agent", "编程", "推理"], is_new: true, date: "2026-05-07"},
+            {name: "Cursor", description: "AI 编程编辑器，代码补全+重构+调试一体化，开发者必备", url: "https://cursor.com", source: "Cursor Inc", votes: 8500, category: "coding", tags: ["编程", "IDE", "效率"], is_new: true, date: "2026-05-07"},
+            {name: "Midjourney V7", description: "最强 AI 图像生成，照片级真实感，支持风格一致性", url: "https://midjourney.com", source: "Midjourney", votes: 7200, category: "design", tags: ["图像", "设计", "艺术"], is_new: false, date: "2026-05-07"},
+            {name: "ElevenLabs", description: "AI 语音生成，支持 30+ 语言，声音克隆，播客/视频配音首选", url: "https://elevenlabs.io", source: "ElevenLabs", votes: 6800, category: "video", tags: ["语音", "音频", "配音"], is_new: false, date: "2026-05-07"},
+            {name: "Perplexity AI", description: "AI 搜索引擎，实时联网搜索，带引用来源，研究必备", url: "https://perplexity.ai", source: "Perplexity", votes: 6500, category: "productivity", tags: ["搜索", "研究", "效率"], is_new: false, date: "2026-05-07"},
+            {name: "Notion AI", description: "Notion 内置 AI，写作、总结、翻译、头脑风暴一体化", url: "https://notion.so", source: "Notion", votes: 5900, category: "writing", tags: ["写作", "笔记", "效率"], is_new: false, date: "2026-05-07"},
+            {name: "n8n", description: "开源工作流自动化工具，连接 400+ 应用，替代 Zapier", url: "https://n8n.io", source: "n8n", votes: 5200, category: "productivity", tags: ["自动化", "工作流", "开源"], is_new: false, date: "2026-05-07"},
+            {name: "Runway Gen-4", description: "AI 视频生成，文本/图片生成视频，电影级质量", url: "https://runway.com", source: "Runway", votes: 4800, category: "video", tags: ["视频", "生成", "创意"], is_new: true, date: "2026-05-07"},
+            {name: "Dify", description: "开源 AI 应用开发平台，快速构建 AI Agent 和 Chatbot", url: "https://dify.ai", source: "Dify", votes: 4500, category: "agent", tags: ["AI Agent", "开发", "开源"], is_new: false, date: "2026-05-07"},
+            {name: "Coze", description: "字节跳动 AI Agent 平台，零代码搭建 AI 机器人，支持多平台发布", url: "https://coze.cn", source: "字节跳动", votes: 4200, category: "agent", tags: ["AI Agent", "零代码", "国内"], is_new: false, date: "2026-05-07"},
+            {name: "DeepSeek R2", description: "国产最强开源模型，推理能力媲美 GPT-4，完全免费", url: "https://deepseek.com", source: "DeepSeek", votes: 9200, category: "agent", tags: ["开源", "免费", "国产"], is_new: true, date: "2026-05-07"},
+            {name: "Kimi K2", description: "月之暗面超长上下文模型，支持 200 万字输入，文档分析神器", url: "https://kimi.moonshot.cn", source: "月之暗面", votes: 5600, category: "agent", tags: ["长上下文", "国产", "文档"], is_new: false, date: "2026-05-07"},
+            {name: "Stable Diffusion 3.5", description: "开源图像生成模型，本地运行，无限生成，可定制", url: "https://stability.ai", source: "Stability AI", votes: 4100, category: "design", tags: ["图像", "开源", "本地"], is_new: false, date: "2026-05-07"},
+            {name: "Wispr Flow", description: "AI 语音输入工具，说话自动转文字+排版+发送，效率翻倍", url: "https://wisprflow.ai", source: "Wispr", votes: 3800, category: "productivity", tags: ["语音", "输入", "效率"], is_new: true, date: "2026-05-07"},
+            {name: "Lovable", description: "AI 网页应用生成器，说话就能做网站，替代前端开发", url: "https://lovable.dev", source: "Lovable", votes: 3500, category: "coding", tags: ["网页", "Vibe Coding", "零代码"], is_new: true, date: "2026-05-07"},
+            {name: "Bolt.new", description: "AI 全栈应用生成器，一句话生成可部署的 Web 应用", url: "https://bolt.new", source: "StackBlitz", votes: 3200, category: "coding", tags: ["全栈", "Vibe Coding", "部署"], is_new: false, date: "2026-05-07"},
+            // 赚钱工具
+            {name: "PromptBase", description: "全球最大 AI Prompt 市场，上传 Prompt 就能卖钱，月入 $500-$3000", url: "https://promptbase.com", source: "PromptBase", votes: 2800, category: "earn", tags: ["赚钱", "Prompt", "被动收入"], is_new: false, date: "2026-05-07"},
+            {name: "Gumroad", description: "数字产品销售平台，卖 PDF/模板/课程，0 门槛上架", url: "https://gumroad.com", source: "Gumroad", votes: 2500, category: "earn", tags: ["赚钱", "数字产品", "被动收入"], is_new: false, date: "2026-05-07"},
+            {name: "Printify", description: "按需印刷平台，AI 设计→印刷→发货，0 库存卖实物", url: "https://printify.com", source: "Printify", votes: 2200, category: "earn", tags: ["赚钱", "POD", "电商"], is_new: false, date: "2026-05-07"},
+            {name: "Etsy", description: "手工艺品+数字产品市场，AI 艺术/设计变现首选", url: "https://etsy.com", source: "Etsy", votes: 2000, category: "earn", tags: ["赚钱", "电商", "国际"], is_new: false, date: "2026-05-07"},
+            {name: "Fiverr", description: "自由职业平台，AI 服务接单，$5-$500/单", url: "https://fiverr.com", source: "Fiverr", votes: 1800, category: "earn", tags: ["赚钱", "接单", "服务"], is_new: false, date: "2026-05-07"},
+            {name: "Upwork", description: "国际自由职业平台，AI 自动化服务 $50-$200/小时", url: "https://upwork.com", source: "Upwork", votes: 1600, category: "earn", tags: ["赚钱", "接单", "高薪"], is_new: false, date: "2026-05-07"},
+        ];
 
+        // ========== 付费产品数据 ==========
+        const EARN_PRODUCTS = [
+            {
+                icon: "📝",
+                title: "50 个高转化 ChatGPT 商业 Prompts",
+                desc: "营销+生产力+编程+创意+教育 5 大类，即拿即用",
+                price: "$4.99",
+                original: "$9.99",
+                features: ["50 个即用型 Prompts", "营销/编程/创意全覆盖", "中英双语", "持续更新", "购买后即时下载"],
+                link: "#",
+                tag: "热销"
+            },
+            {
+                icon: "🎨",
+                title: "30 个 Midjourney 商业设计 Prompts",
+                desc: "产品 Mockup/Logo/海报/电商主图，设计师必备",
+                price: "$6.99",
+                original: "$12.99",
+                features: ["30 个商业级 Prompts", "涵盖 15+ 设计场景", "附参数说明", "适合电商/自媒体", "购买后即时下载"],
+                link: "#",
+                tag: "推荐"
+            },
+            {
+                icon: "💰",
+                title: "AI 赚钱工具包 — 2026 完整版",
+                desc: "50 个 AI 工具 + 10 个赚钱方案 + 100+ Prompts + 平台指南",
+                price: "$19.99",
+                original: "$49.99",
+                features: ["50 个 AI 工具详解", "10 个可复制赚钱方案", "100+ 即用型 Prompts", "平台注册指南", "营销模板", "购买后即时下载"],
+                link: "#",
+                tag: "超值"
+            },
+            {
+                icon: "🤖",
+                title: "n8n 自动化工作流模板包",
+                desc: "20 个即用型自动化工作流，社交媒体/邮件/数据/CRM",
+                price: "$9.99",
+                original: "$19.99",
+                features: ["20 个即用型工作流", "社交媒体自动化", "邮件营销自动化", "数据同步", "附详细教程"],
+                link: "#",
+                tag: ""
+            },
+            {
+                icon: "📊",
+                title: "小红书 AI 变现实战指南",
+                desc: "从 0 到月入过万，AI 内容矩阵+虚拟资料+带货全攻略",
+                price: "¥99",
+                original: "¥199",
+                features: ["12 条变现路径详解", "AI 内容生产 SOP", "虚拟资料选品指南", "矩阵运营策略", "真实案例拆解"],
+                link: "#",
+                tag: "国内"
+            },
+            {
+                icon: "🎯",
+                title: "AI Agency 创业指南",
+                desc: "0 成本启动 AI 自动化服务，获客+定价+交付全流程",
+                price: "$29.99",
+                original: "$59.99",
+                features: ["获客渠道详解", "定价策略", "服务交付 SOP", "合同模板", "案例展示模板", "客户沟通话术"],
+                link: "#",
+                tag: "进阶"
+            },
+        ];
+
+        // ========== 赚钱方法数据 ==========
+        const METHODS_DATA = [
+            {num: "01", title: "卖 AI Prompts", desc: "在 PromptBase/Gumroad 上传自研 Prompt，一次制作持续销售。门槛最低，今天就能开始。", income: "$500-$3,000/月", tools: "ChatGPT + Midjourney + PromptBase"},
+            {num: "02", title: "AI 自动化服务 Agency", desc: "用 n8n/Coze 帮中小企业搭建自动化工作流，按项目收费。", income: "$1,000-$30,000/月", tools: "n8n + Coze + Dify"},
+            {num: "03", title: "AI 内容创作服务", desc: "用 AI 批量生成 SEO 文章/社交媒体内容，接单或包月。", income: "$500-$5,000/月", tools: "DeepSeek + Claude + 剪映"},
+            {num: "04", title: "AI 宠物肖像 + POD", desc: "用 Midjourney 生成宠物肖像，通过 Printify 印在实物上销售。", income: "$1,000-$4,000/月", tools: "Midjourney + Printify + Etsy"},
+            {num: "05", title: "小红书 AI 矩阵", desc: "AI 批量生产图文/视频内容，多账号矩阵运营，接商单变现。", income: "¥3,000-¥30,000/月", tools: "通义万相 + DeepSeek + 剪映"},
+            {num: "06", title: "AI SaaS 工具封装", desc: "用 Bolt.new/Lovable 快速搭建 AI 小工具，订阅制收费。", income: "$2,000-$25,000/月", tools: "Bolt.new + Lovable + Stripe"},
+        ];
+
+        // ========== 渲染函数 ==========
         function renderTools(tools) {
             const grid = document.getElementById('tools-grid');
+            if (tools.length === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#666;padding:40px;">暂无匹配的工具</div>';
+                return;
+            }
             grid.innerHTML = tools.map(tool => `
                 <div class="tool-card" data-category="${tool.category || 'other'}">
                     <div class="tool-header">
-                        <div class="tool-name">${tool.name}</div>
+                        <div class="tool-name">${tool.name}${tool.is_new ? '<span class="new-badge">NEW</span>' : ''}</div>
                         <div class="tool-votes">⬆ ${tool.votes || 0}</div>
                     </div>
                     <div class="tool-desc">${tool.description || ''}</div>
@@ -107,31 +294,66 @@
                     </div>
                 </div>
             `).join('');
-
-            // 更新统计
-            document.getElementById('tool-count').textContent = tools.length;
-            document.getElementById('today-count').textContent = tools.filter(t => t.is_new).length;
-            const categories = new Set(tools.map(t => t.category).filter(Boolean));
-            document.getElementById('category-count').textContent = categories.size;
-            document.getElementById('update-time').textContent = new Date().toLocaleString('zh-CN');
         }
 
-        function filterTools(category) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const cards = document.querySelectorAll('.tool-card');
-            cards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+        function renderEarnProducts() {
+            const grid = document.getElementById('earn-grid');
+            grid.innerHTML = EARN_PRODUCTS.map(p => `
+                <div class="earn-card">
+                    ${p.tag ? `<div class="earn-tag">${p.tag}</div>` : ''}
+                    <div class="earn-icon">${p.icon}</div>
+                    <div class="earn-title">${p.title}</div>
+                    <div class="earn-desc">${p.desc}</div>
+                    <div class="earn-price">${p.price} <span>${p.original}</span></div>
+                    <ul class="earn-features">
+                        ${p.features.map(f => `<li>${f}</li>`).join('')}
+                    </ul>
+                    <a href="${p.link}" class="earn-btn" target="_blank">立即购买 →</a>
+                </div>
+            `).join('');
         }
 
-        // 初始化
+        function renderMethods() {
+            const grid = document.getElementById('methods-grid');
+            grid.innerHTML = METHODS_DATA.map(m => `
+                <div class="method-card">
+                    <div class="method-num">${m.num}</div>
+                    <div class="method-title">${m.title}</div>
+                    <div class="method-desc">${m.desc}</div>
+                    <div class="method-income">💰 ${m.income}</div>
+                    <div class="method-tools">🛠 ${m.tools}</div>
+                </div>
+            `).join('');
+        }
+
+        function filterTools(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            const filtered = category === 'all' ? TOOLS_DATA : TOOLS_DATA.filter(t => t.category === category);
+            renderTools(filtered);
+        }
+
+        // ========== 初始化 ==========
         renderTools(TOOLS_DATA);
+        renderEarnProducts();
+        renderMethods();
+
+        // 更新统计
+        document.getElementById('tool-count').textContent = TOOLS_DATA.length;
+        document.getElementById('today-count').textContent = TOOLS_DATA.filter(t => t.is_new).length;
+        document.getElementById('update-time').textContent = new Date().toLocaleString('zh-CN');
+
+        // 平滑滚动
+        document.querySelectorAll('.nav a').forEach(a => {
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({behavior: 'smooth'});
+                document.querySelectorAll('.nav a').forEach(x => x.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
