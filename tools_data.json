@@ -11,12 +11,16 @@
       "AI",
       "对话",
       "Computer Use",
-      "编程"
+      "编程",
+      "副业",
+      "赚钱",
+      "被动收入",
+      "AI副业"
     ],
     "is_new": false,
     "date": "2026-05-07",
     "affiliate_url": "https://claude.ai",
-    "affiliate_desc": "Anthropic AI 助手"
+    "affiliate_desc": "AI 副业工具，Anthropic AI 助手"
   },
   {
     "name": "ChatGPT",
@@ -30,12 +34,16 @@
       "AI",
       "对话",
       "GPTs",
-      "插件"
+      "插件",
+      "副业",
+      "赚钱",
+      "被动收入",
+      "AI副业"
     ],
     "is_new": false,
     "date": "2026-05-07",
     "affiliate_url": "https://chat.openai.com",
-    "affiliate_desc": "OpenAI AI 助手"
+    "affiliate_desc": "AI 副业工具，OpenAI AI 助手"
   },
   {
     "name": "Midjourney",
@@ -48,12 +56,16 @@
     "tags": [
       "图片生成",
       "艺术",
-      "设计"
+      "设计",
+      "副业",
+      "赚钱",
+      "被动收入",
+      "AI副业"
     ],
     "is_new": false,
     "date": "2026-05-07",
     "affiliate_url": "https://midjourney.com",
-    "affiliate_desc": "AI 图片生成"
+    "affiliate_desc": "AI 副业工具，AI 图片生成"
   },
   {
     "name": "DeepSeek",
@@ -132,12 +144,16 @@
       "编程",
       "IDE",
       "AI补全",
-      "效率"
+      "效率",
+      "副业",
+      "赚钱",
+      "被动收入",
+      "AI副业"
     ],
     "is_new": false,
     "date": "2026-05-07",
     "affiliate_url": "https://cursor.com",
-    "affiliate_desc": "AI 代码编辑器"
+    "affiliate_desc": "AI 副业工具，AI 代码编辑器"
   },
   {
     "name": "DALL-E 3",
@@ -165,12 +181,16 @@
     "tags": [
       "搜索",
       "AI",
-      "联网"
+      "联网",
+      "副业",
+      "赚钱",
+      "被动收入",
+      "AI副业"
     ],
     "is_new": false,
     "date": "2026-05-07",
     "affiliate_url": "https://perplexity.ai",
-    "affiliate_desc": "AI 搜索引擎"
+    "affiliate_desc": "AI 副业工具，AI 搜索引擎"
   },
   {
     "name": "Grammarly",
@@ -183,12 +203,16 @@
     "tags": [
       "语法",
       "写作",
-      "英文"
+      "英文",
+      "副业",
+      "赚钱",
+      "被动收入",
+      "AI副业"
     ],
     "is_new": false,
     "date": "2026-05-07",
     "affiliate_url": "https://grammarly.com",
-    "affiliate_desc": "AI 语法检查"
+    "affiliate_desc": "AI 副业工具，AI 语法检查"
   },
   {
     "name": "Zapier",
@@ -217,12 +241,16 @@
     "tags": [
       "笔记",
       "写作",
-      "AI"
+      "AI",
+      "副业",
+      "赚钱",
+      "被动收入",
+      "AI副业"
     ],
     "is_new": false,
     "date": "2026-05-07",
     "affiliate_url": "https://notion.so",
-    "affiliate_desc": "笔记 + AI"
+    "affiliate_desc": "AI 副业工具，笔记 + AI"
   },
   {
     "name": "Stable Diffusion",
@@ -444,12 +472,16 @@
     "tags": [
       "数字产品",
       "销售",
-      "变现"
+      "变现",
+      "副业",
+      "赚钱",
+      "被动收入",
+      "AI副业"
     ],
     "is_new": false,
     "date": "2026-05-07",
     "affiliate_url": "https://gumroad.com",
-    "affiliate_desc": "数字产品销售平台"
+    "affiliate_desc": "AI 副业工具，数字产品销售平台"
   },
   {
     "name": "Wispr Flow",
@@ -670,12 +702,16 @@
     "tags": [
       "写作",
       "SEO",
-      "博客"
+      "博客",
+      "副业",
+      "赚钱",
+      "被动收入",
+      "AI副业"
     ],
     "is_new": false,
     "date": "2026-05-07",
     "affiliate_url": "https://writesonic.com/?via=ainavigator",
-    "affiliate_desc": "AI 写作工具 - 30% 佣金"
+    "affiliate_desc": "AI 副业工具，AI 写作工具 - 30% 佣金"
   },
   {
     "name": "ProgramBench: Can Language Models Rebuild Programs from Scra",
@@ -710,6 +746,21 @@
     "date": "2026-05-07"
   },
   {
+    "name": "Maryland citizens hit with $2B power grid upgrade for out-of",
+    "description": "HN 热门: Maryland citizens hit with $2B power grid upgrade for out-of-state AI",
+    "url": "https://news.ycombinator.com/",
+    "source": "Hacker News",
+    "votes": 364,
+    "category": "agent",
+    "tags": [
+      "HN",
+      "讨论"
+    ],
+    "is_new": true,
+    "date": "2026-05-11",
+    "description_zh": ""
+  },
+  {
     "name": "Podman rootless containers and the Copy Fail exploit",
     "description": "HN 热门: Podman rootless containers and the Copy Fail exploit",
     "url": "https://news.ycombinator.com/",
@@ -741,6 +792,21 @@
     "date": "2026-05-07"
   },
   {
+    "name": "Task Paralysis and AI",
+    "description": "HN 热门: Task Paralysis and AI",
+    "url": "https://news.ycombinator.com/",
+    "source": "Hacker News",
+    "votes": 336,
+    "category": "productivity",
+    "tags": [
+      "HN",
+      "讨论"
+    ],
+    "is_new": true,
+    "date": "2026-05-11",
+    "description_zh": ""
+  },
+  {
     "name": "Reclaim.ai",
     "description": "AI 时间管理，自动优化日程安排",
     "description_zh": "AI 时间管理，自动优化日程安排",
@@ -767,12 +833,31 @@
     "tags": [
       "短链接",
       "分析",
-      "联盟营销"
+      "联盟营销",
+      "副业",
+      "赚钱",
+      "被动收入",
+      "AI副业"
     ],
     "is_new": true,
     "date": "2026-05-07",
     "affiliate_url": "https://dub.co",
-    "affiliate_desc": "短链接 + 联盟营销"
+    "affiliate_desc": "AI 副业工具，短链接 + 联盟营销"
+  },
+  {
+    "name": "Local AI needs to be the norm",
+    "description": "HN 热门: Local AI needs to be the norm",
+    "url": "https://news.ycombinator.com/",
+    "source": "Hacker News",
+    "votes": 272,
+    "category": "agent",
+    "tags": [
+      "HN",
+      "讨论"
+    ],
+    "is_new": true,
+    "date": "2026-05-11",
+    "description_zh": ""
   },
   {
     "name": "Learning the Integral of a Diffusion Model",
@@ -788,6 +873,36 @@
     ],
     "is_new": true,
     "date": "2026-05-07",
+    "description_zh": ""
+  },
+  {
+    "name": "Chrome&#x27;s AI features may be hogging 4GB of your compute",
+    "description": "HN 热门: Chrome&#x27;s AI features may be hogging 4GB of your computer storage",
+    "url": "https://news.ycombinator.com/",
+    "source": "Hacker News",
+    "votes": 265,
+    "category": "agent",
+    "tags": [
+      "HN",
+      "讨论"
+    ],
+    "is_new": true,
+    "date": "2026-05-11",
+    "description_zh": ""
+  },
+  {
+    "name": "Spain has become one of Europe’s cheapest power markets",
+    "description": "HN 热门: Spain has become one of Europe’s cheapest power markets",
+    "url": "https://news.ycombinator.com/",
+    "source": "Hacker News",
+    "votes": 234,
+    "category": "earn",
+    "tags": [
+      "HN",
+      "讨论"
+    ],
+    "is_new": true,
+    "date": "2026-05-11",
     "description_zh": ""
   },
   {
@@ -844,7 +959,9 @@
     "category": "agent",
     "tags": [
       "HN",
-      "讨论"
+      "讨论",
+      "副业",
+      "赚钱"
     ],
     "is_new": true,
     "date": "2026-05-09",
